@@ -18,7 +18,7 @@ $(document).ready(function () {
   //   }
 
   // })
-  if (localStorage.getItem("login Status") == true) {
+  if (localStorage.getItem('loginStatus') == "true") {
 
     location.assign("./orders.html")
   }
@@ -38,7 +38,7 @@ $(document).ready(function () {
 
 
     if (UserName.value == Credentials.username && Password.value == Credentials.password) {
-      localStorage.setItem("login Status", true);
+      localStorage.setItem('loginStatus', true);
       location.assign("./orders.html")
     }
     else {

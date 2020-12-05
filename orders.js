@@ -1,12 +1,21 @@
 $(document).ready(function () {
 
-  let countVal = document.getElementById("countVal");
-  let response;
-  let TbodyDiv = document.getElementsByTagName("tbody")[1];
-  if (!localStorage.getItem("login Status")) {
+  $("#LogoutBtn").click(() => {
+    console.log("btn clicked")
+    localStorage.setItem('loginStatus', false)
+    location.assign("./index.html")
+  })
+
+  if (localStorage.getItem('loginStatus') == "false") {
 
     location.assign("./index.html")
   }
+
+
+  let countVal = document.getElementById("countVal");
+  let response;
+  let TbodyDiv = document.getElementsByTagName("tbody")[1];
+
   const createTableRow = (data) => {
     var trWrapper = document.createElement('tr');
     trWrapper.classList.add('Homepage_TableRow');

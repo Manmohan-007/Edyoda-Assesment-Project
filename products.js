@@ -1,42 +1,17 @@
 $(document).ready(function () {
-    var productId = window.location.search.split('=')[1];
-    var obj = null;
 
-    // function createProductImages(url, pos) {
-    //     var image = document.createElement('img');
-    //     image.src = url
 
-    //     if(pos === 0) {
-    //         image.classList.add("active-image");
-    //     }
-
-    //     image.onclick = function() {
-    //         $('#product-images img').removeClass("active-image") ;
-    //         image.classList.add("active-image");
-    //         $('#product-preview').attr('src', url);
-    //     }
-    //     <tr
-    //     class="ProductListingPage_TableRow ProductListingPage_ExpiredRow"
-    //   >
-    //     <td class="ProductListingPage_SecondaryText">56104-020</td>
-    //     <td class="ProductListingPage_PrimaryText">
-    //       Miconazole Nitrate
-    //     </td>
-    //     <td class="ProductListingPage_SecondaryText">
-    //       Premier Brands of America Inc.
-    //     </td>
-    //     <td class="ProductListingPage_PrimaryText">14 Aug, 2012</td>
-    //     <td class="ProductListingPage_SecondaryText">$993.01</td>
-    //     <td class="ProductListingPage_SecondaryText">725</td>
-    //   </tr>
-
-    if (!localStorage.getItem("login Status")) {
+    if (localStorage.getItem('loginStatus') == "false") {
 
         location.assign("./index.html")
     }
+    $("#logoutBtn").click(() => {
+        localStorage.setItem('loginStatus', false)
+        location.assign("./index.html")
+    })
     let TbodyDiv = document.getElementsByTagName("tbody")[0];
 
-    let count = 0;
+    let count = 100;
 
 
     const ProductTableRow = (data) => {
@@ -83,13 +58,15 @@ $(document).ready(function () {
 
         response.map(item => {
             var trRows = ProductTableRow(item)
-
+            count++;
             TbodyDiv.appendChild(trRows)
         })
+        $("#countVal").text(`Count : ${count} `);
     })
     let currentDate = new Date().getTime();
     const ExpiryBox = document.getElementById("productExpired")
     ExpiryBox.onclick = () => {
+        count = 0;
         if (ExpiryBox.checked == false) {
             for (let i = 0; i < response.length; i++) {
                 var output = new Date(response[i].expiryDate).getTime()
@@ -97,7 +74,7 @@ $(document).ready(function () {
                 if (LowStockBox.checked) {
                     if (output > currentDate) {
                         row[i].style.display = "";
-
+                        count++;
                     }
                     else {
                         row[i].style.display = "none";
@@ -106,6 +83,7 @@ $(document).ready(function () {
                 else if (LowStockBox.checked == false) {
                     if (output > currentDate && response[i].stock > 100) {
                         row[i].style.display = "";
+                        count++;
 
                     }
                     else {
@@ -120,6 +98,7 @@ $(document).ready(function () {
                     row[i].style.display = "none";
                 }
             }
+            $("#countVal").text(`Count : ${count} `);
         }
 
         else if (ExpiryBox.checked == true) {
@@ -129,10 +108,12 @@ $(document).ready(function () {
 
                 if (LowStockBox.checked) {
                     row[i].style.display = ""
+                    count++;
                 }
                 else if (LowStockBox.checked == false) {
                     if (response[i].stock > 100) {
                         row[i].style.display = ""
+                        count++;
                     }
                     else {
                         row[i].style.display = "none"
@@ -144,7 +125,7 @@ $(document).ready(function () {
 
             }
 
-
+            $("#countVal").text(`Count : ${count} `);
 
         }
 
@@ -153,6 +134,7 @@ $(document).ready(function () {
     const LowStockBox = document.getElementById("lowStock")
 
     LowStockBox.onclick = () => {
+        count = 0;
         if (LowStockBox.checked == true) {
 
             var row = document.getElementsByClassName("ProductListingPage_TableRow");
@@ -161,21 +143,24 @@ $(document).ready(function () {
 
                 if (ExpiryBox.checked) {
                     row[i].style.display = ""
+                    count++;
                 }
                 else if (ExpiryBox.checked == false) {
                     var output = new Date(response[i].expiryDate).getTime()
                     if (output > currentDate) {
                         row[i].style.display = ""
+                        count++;
                     }
                     else {
                         row[i].style.display = "none"
                     }
                 }
             }
+            $("#countVal").text(`Count : ${count} `);
         }
 
         else if (LowStockBox.checked == false) {
-
+            count = 0;
             var row = document.getElementsByClassName("ProductListingPage_TableRow");
             for (let i = 0; i < row.length; i++) {
                 if (ExpiryBox.checked) {
@@ -183,6 +168,7 @@ $(document).ready(function () {
                     var row = document.getElementsByClassName("ProductListingPage_TableRow");
                     if (response[i].stock > 100) {
                         row[i].style.display = ""
+                        count++;
                     }
                     else {
                         row[i].style.display = "none"
@@ -192,6 +178,7 @@ $(document).ready(function () {
                     var output = new Date(response[i].expiryDate).getTime()
                     if (output > currentDate && response[i].stock > 100) {
                         row[i].style.display = "";
+                        count++;
 
                     }
                     else {
@@ -201,7 +188,7 @@ $(document).ready(function () {
 
             }
 
-
+            $("#countVal").text(`Count : ${count} `);
 
         }
 
@@ -215,68 +202,5 @@ $(document).ready(function () {
 
 
 
-    //     return image;
-    // }
 
-    // $.get('https://5d76bf96515d1a0014085cf9.mockapi.io/product/' + productId, function (data, status) {
-    //     obj = data;
-    //     $('#product-preview').attr('src', data.preview)
-    //     $('#product-title').html(data.name);
-    //     $('#product-brand').html(data.brand);
-    //     $('#description').html(data.description);
-    //     $('#product-price').html(data.price);
-
-    //     for (var i = 0; i < data.photos.length; i++) {
-    //         $('#product-images').append(createProductImages(data.photos[i], i));
-    //     }
-    // })
-
-    // $("#btn-add-to-cart").click(function () {
-    //     $('#btn-add-to-cart').addClass('bigger');
-    //     setTimeout(function () {
-    //         $('#btn-add-to-cart').removeClass('bigger');
-    //     }, 200)
-
-    // var productl = window.localStorage.getItem('product-list');
-    // productl = productl === null || productl === '' ? [] : productl;
-    // productl = productl.length > 0 ? JSON.parse(productl) : [];
-
-    // var flag = 0;
-    // for (var i = 0; i < productl.length; i++) {
-
-    //     if (productl[i].id == obj.id) {
-    //         // console.log(productl[i]) ; 
-    //         flag = 1;
-    //         break;
-    //     }
-    //     else if (productl[i].id != obj.id) {
-
-
-    //     }
-    // }
-    // console.log(obj) ; 
-    // console.log(productl[i],"found") ; 
-    // console.log(productl[i] , "not found") ; 
-    // if (flag == 1) {
-    //     productl[i].count += 1;
-    //     // console.log(productl[i],"found") ; 
-    //     window.localStorage.setItem('product-list', JSON.stringify(productl));
-    // } else {
-    //     // console.log(productl[i] , "not found") ; 
-    //     obj.count = 1;
-
-    //     console.log(obj, "notfound");
-    //     // console.log(productl) ; 
-    //     productl.push(obj);
-
-    //     window.localStorage.setItem('product-list', JSON.stringify(productl));
-    // }
-
-    //     var totalCount = 0;
-    //     for (var i = 0; i < productl.length; i++) {
-    //         totalCount = totalCount + productl[i].count;
-    //     }
-
-    //     $('#cart-count').html(totalCount);
-    // })
 });

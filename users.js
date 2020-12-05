@@ -1,10 +1,10 @@
 $(document).ready(function () {
-
-    let TbodyDiv = document.getElementsByTagName("tbody")[1];
-    if (!localStorage.getItem("login Status")) {
+    if (localStorage.getItem('loginStatus') == "false") {
 
         location.assign("./index.html")
     }
+    let TbodyDiv = document.getElementsByTagName("tbody")[1];
+
     const UserTableRow = (data) => {
         var trWrapper = document.createElement('tr');
         trWrapper.classList.add('UserList_TableRow');
@@ -49,7 +49,7 @@ $(document).ready(function () {
 
     $("#Logoutbtn").click((e) => {
         e.preventDefault();
-        localStorage.setItem("login Status", false)
+        localStorage.setItem("loginStatus", false)
         location.assign("./index.html")
     })
 
