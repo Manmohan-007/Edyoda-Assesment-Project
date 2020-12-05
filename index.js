@@ -1,31 +1,11 @@
 $(document).ready(function () {
 
-  // api is not working  
 
-  // $.ajax({
-  //   type: "POST",
-  //   url: "https://5fc1a1c9cb4d020016fe6b07.mockapi.io/api/v1/login",
-  //   data: {
-  //     username: "12345", password: "Password"
-  //   },
-  //   success: function (response) {
-  //     if (response) {
-  //       alert("Login successful")
-  //     }
-  //     else {
-  //       console.log("Invalid User")
-  //     }
-  //   }
-
-  // })
   if (localStorage.getItem('loginStatus') == "true") {
 
     location.assign("./orders.html")
   }
-  let Credentials = {
-    username: "Qaifi",
-    password: "Password"
-  }
+
 
   let UserName = document.getElementById("username");
   let Password = document.getElementById("password")
@@ -36,14 +16,28 @@ $(document).ready(function () {
   $("#SubmitBtn").click((e) => {
     e.preventDefault();
 
+    if ((UserName.value != "" && Password.value != "") && (UserName.value === Password.value)) {
 
-    if (UserName.value == Credentials.username && Password.value == Credentials.password) {
-      localStorage.setItem('loginStatus', true);
-      location.assign("./orders.html")
+      $.ajax({
+        type: "POST",
+        url: "https://5fc1a1c9cb4d020016fe6b07.mockapi.io/api/v1/login",
+        data: {
+          username: UserName.value, password: Password.value
+        },
+        success: function (response) {
+          if (response) {
+            localStorage.setItem('loginStatus', true);
+            alert("Login successful");
+            location.assign("./orders.html")
+          }
+
+        }
+
+      })
     }
     else {
 
-      alert("Enter the correct Credentials")
+      alert("Invalid Username and Password")
       UserName.value = ""
       Password.value = ""
     }
