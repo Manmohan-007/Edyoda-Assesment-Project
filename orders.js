@@ -12,7 +12,7 @@ $(document).ready(function () {
   }
 
 
-  let countVal = document.getElementById("countVal");
+
   let response;
   let TbodyDiv = document.getElementsByTagName("tbody")[1];
 
@@ -75,7 +75,7 @@ $(document).ready(function () {
 
 
   })
-  let mArr = [];
+  let mArr = ['new', 'packed', 'intransit', 'delivered'];
 
   $('input').click((e) => {
 
