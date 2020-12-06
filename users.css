@@ -59,6 +59,7 @@ margin-right: 8px;
     font-weight: 500;
     letter-spacing: .6px;
     margin: 0 10px;
+    cursor: pointer;
 } 
 .Topbar_Active{
     color: #20b883;
